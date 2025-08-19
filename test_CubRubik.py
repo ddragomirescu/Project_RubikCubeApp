@@ -8,33 +8,44 @@ class TestCubRubik(unittest.TestCase):
 
     def test_initial_cube_state(self):
         expected = {
-            'Sus': [['Alb'] * 3 for _ in range(3)],
-            'Jos': [['Galben'] * 3 for _ in range(3)],
-            'Fata': [['Rosu'] * 3 for _ in range(3)],
-            'Spate': [['Portocaliu'] * 3 for _ in range(3)],
-            'Stanga': [['Verde'] * 3 for _ in range(3)],
-            'Dreapta': [['Albastru'] * 3 for _ in range(3)]
+            'U': [['W'] * 3 for _ in range(3)],
+            'D': [['Y'] * 3 for _ in range(3)],
+            'F': [['R'] * 3 for _ in range(3)],
+            'B': [['O'] * 3 for _ in range(3)],
+            'L': [['G'] * 3 for _ in range(3)],
+            'R': [['B'] * 3 for _ in range(3)]
         }
         self.assertEqual(self.cub.cube, expected)
 
-    def test_rotate_face_clockwise(self):
-        self.cub.rotate_face('Sus')
-        self.assertNotEqual(self.cub.cube['Sus'], [['Alb'] * 3 for _ in range(3)])
-
-    def test_rotate_face_counterclockwise(self):
-        self.cub.rotate_face('Sus', 'counterclockwise')
-        self.assertNotEqual(self.cub.cube['Sus'], [['Alb'] * 3 for _ in range(3)])
+    def test_rotate_clockwise(self):
+        self.cub.rotate("U")
+        # The following expected dict has syntax errors in list construction.
+        # Correct syntax for combining lists:
+        # [item1] + [item2 for _ in range(n)]
+        # But for a face, you want a 3x3 grid, so [['color'] * 3 for _ in range(3)]
+        # If you want to change only the first row, use:
+        # [new_row] + [original_row for _ in range(2)]
+        # Example for 'F': [['B'] * 3] + [['R'] * 3 for _ in range(2)]
+        expected = {
+            'U': [['W'] * 3 for _ in range(3)],
+            'D': [['Y'] * 3 for _ in range(3)],
+            'F': [['B'] * 3] + [['R'] * 3 for _ in range(2)],
+            'B': [['G'] * 3] + [['O'] * 3 for _ in range(2)],
+            'L': [['R'] * 3] + [['G'] * 3 for _ in range(2)],
+            'R': [['O'] * 3] + [['B'] * 3 for _ in range(2)]
+        }
+        self.assertEqual(self.cub.cube, expected)
 
     def test_rotate_valid_moves(self):
-        valid_moves = ["Sus", "Jos", "Fata", "Spate", "Stanga", "Dreapta",
-                       "Sus'", "Jos'", "Fata'", "Spate'", "Stanga'", "Dreapta'"]
+        valid_moves = ["U", "D", "F", "B", "L", "R",
+                       "U-", "D-", "F-", "B-", "L-", "R-"]
         for move in valid_moves:
             with self.subTest(move=move):
                 self.cub.rotate(move)
 
     def test_rotate_invalid_move(self):
         with self.assertRaises(ValueError):
-            self.cub.rotate("InvalidMove")
+            self.cub.rotate("Input Error: Miscare invalida!")
 
     def test_display(self):
         import io
@@ -45,12 +56,12 @@ class TestCubRubik(unittest.TestCase):
         sys.stdout = sys.__stdout__
         output = captured_output.getvalue()
         self.assertIn("Starea curentă a cubului Rubik:", output)
-        self.assertIn("Sus:", output)
-        self.assertIn("Jos:", output)
-        self.assertIn("Fata:", output)
-        self.assertIn("Spate:", output)
-        self.assertIn("Stanga:", output)
-        self.assertIn("Dreapta:", output)
+        self.assertIn("U:", output)
+        self.assertIn("D:", output)
+        self.assertIn("F:", output)
+        self.assertIn("B:", output)
+        self.assertIn("L:", output)
+        self.assertIn("R:", output)
 
 if __name__ == '__main__':
     unittest.main() 
