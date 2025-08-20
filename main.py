@@ -8,9 +8,16 @@ if __name__ == "__main__":
     #cub.display()
     
     # Exemplu de rotație a feței "Sus"
+    # cub.rotate("U")
+    cub.rotate("R-")
     cub.rotate("U")
-
-    #cub.rotate("D-") 
+    cub.rotate("B")
+    cub.rotate("L")
+    cub.rotate("D-")
+    cub.rotate("F")
+    cub.rotate("L-")
+    
+    
     
     # Afișarea stării cubului după rotație
     #cub.display()
@@ -21,7 +28,8 @@ if __name__ == "__main__":
     # Afișarea stării cubului după rotația inversă
     cub.display()
     
-    print("Fata Dreapta:" + str(cub.cube['R']))
-    print("Fata Front:" + str(cub.cube['F']))
-    print("Fata Sus:" + str(cub.cube['U']))
+    print("Fata 'Sus' a cubului Rubik:" + str(cub.cube['U']))
+    print("Fata 'Jos' a cubului Rubik:" + str(cub.cube['D']))
+    print("Fata 'Fata' a cubului Rubik:" + str(cub.cube['F']))
+    
     

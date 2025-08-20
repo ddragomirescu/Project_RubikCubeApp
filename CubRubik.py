@@ -5,12 +5,12 @@ class CubRubik:
     def gen_cube(self):  
         # Genereaza un cub Rubik 3x3x3 cu culori initiale
         return {
-            'U': [['W']        * 3 for index in range(3)],
-            'D': [['Y']     * 3 for index in range(3)],
-            'F': [['R']       * 3 for index in range(3)],
+            'U': [['W'] * 3 for index in range(3)],
+            'D': [['Y'] * 3 for index in range(3)],
+            'F': [['R'] * 3 for index in range(3)],
             'B': [['O'] * 3 for index in range(3)],
-            'L': [['G']      * 3 for index in range(3)],
-            'R': [['B']   * 3 for index in range(3)]
+            'L': [['G'] * 3 for index in range(3)],
+            'R': [['B'] * 3 for index in range(3)]
         }
 
     def rotate_face(self, face, direction="clockwise"):
@@ -23,95 +23,129 @@ class CubRubik:
 
         # Roatirea marginilor adiacente
         if face == 'U':
-            if direction == "clockwise":  
-                temp = self.cube['F'][0][:]
-                self.cube['F'][0] = self.cube['R'][0][::-1]
-                self.cube['R'][0] = self.cube['B'][0][:]
-                self.cube['B'][0] = self.cube['L'][0][:]
-                self.cube['L'][0] = temp
+            f = [self.cube['F'][0][i] for i in range(3)]
+            b = [self.cube['B'][0][i] for i in range(3)]
+            l = [self.cube['L'][0][i] for i in range(3)]
+            r = [self.cube['R'][0][i] for i in range(3)]
+
+            if direction == "clockwise":
+                for i in range(3):
+                    self.cube['F'][0][i] = r[i]
+                    self.cube['B'][0][i] = l[i]
+                    self.cube['L'][0][i] = f[i]
+                    self.cube['R'][0][i] = b[i]
+                    
             elif direction == "counterclockwise":
-                temp = self.cube['F'][0][:]
-                self.cube['F'][0] = self.cube['L'][0][:]
-                self.cube['L'][0] = self.cube['B'][0][::-1]
-                self.cube['B'][0] = self.cube['R'][0][::-1]
-                self.cube['R'][0] = temp
+               for i in range(3):
+                    self.cube['F'][0][i] = l[i]
+                    self.cube['B'][0][i] = r[i]
+                    self.cube['L'][0][i] = b[i]
+                    self.cube['R'][0][i] = f[i]
+
         elif face == 'D':
+            f = [self.cube['F'][2][i] for i in range(3)]
+            b = [self.cube['B'][2][i] for i in range(3)]
+            l = [self.cube['L'][2][i] for i in range(3)]
+            r = [self.cube['R'][2][i] for i in range(3)]
+            
             if direction == "clockwise":
-                temp = self.cube['F'][2][:]
-                self.cube['F'][2] = self.cube['L'][2][::-1]
-                self.cube['L'][2] = self.cube['B'][2][:]
-                self.cube['B'][2] = self.cube['R'][2][:]
-                self.cube['R'][2] = temp
+                for i in range(3):
+                    self.cube['F'][2][i] = l[i]
+                    self.cube['B'][2][i] = r[i]
+                    self.cube['L'][2][i] = b[i]
+                    self.cube['R'][2][i] = f[i]
+
             elif direction == "counterclockwise":
-                temp = self.cube['F'][2][:]
-                self.cube['F'][2] = self.cube['R'][2][::-1]
-                self.cube['R'][2] = self.cube['B'][2][:]
-                self.cube['B'][2] = self.cube['L'][2][:]
-                self.cube['L'][2] = temp
+                for i in range(3):
+                    self.cube['F'][2][i] = r[i]
+                    self.cube['B'][2][i] = l[i]
+                    self.cube['L'][2][i] = f[i]
+                    self.cube['R'][2][i] = b[i]
+
         elif face == 'F':
+            u = [self.cube['U'][2][i] for i in range(3)]
+            d = [self.cube['D'][0][i] for i in range(3)]
+            l = [self.cube['L'][i][2] for i in range(3)]
+            r = [self.cube['R'][i][0] for i in range(3)]
+            
             if direction == "clockwise":
-                temp = [self.cube['U'][2][i] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][2][i] = self.cube['L'][2-i][2]
-                    self.cube['L'][2-i][2] = self.cube['D'][0][i]
-                    self.cube['D'][0][i] = self.cube['R'][i][0]
-                    self.cube['R'][i][0] = temp[i]
+                    self.cube['U'][2][2-i] = l[i]
+                    self.cube['D'][0][2-i] = r[i]
+                    self.cube['L'][i][2] = d[i]
+                    self.cube['R'][i][0] = u[i]
+
             elif direction == "counterclockwise":
-                temp = [self.cube['U'][2][i] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][2][i] = self.cube['R'][i][0]
-                    self.cube['R'][i][0] = self.cube['D'][0][i]
-                    self.cube['D'][0][i] = self.cube['L'][2-i][2]
-                    self.cube['L'][2-i][2] = temp[i]
+                    self.cube['U'][2][i] = r[i]
+                    self.cube['D'][0][i] = l[i]
+                    self.cube['L'][2-i][2] = u[i]
+                    self.cube['R'][2-i][0] = d[i]
+
         elif face == 'B':
+            u = [self.cube['U'][0][i] for i in range(3)]
+            d = [self.cube['D'][2][i] for i in range(3)]
+            l = [self.cube['L'][i][0] for i in range(3)]
+            r = [self.cube['R'][i][2] for i in range(3)]
+            
             if direction == "clockwise":
-                temp = [self.cube['U'][0][i] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][0][i] = self.cube['R'][2-i][2]
-                    self.cube['R'][2-i][2] = self.cube['D'][2][i]
-                    self.cube['D'][2][i] = self.cube['L'][i][0]
-                    self.cube['L'][i][0] = temp[i]
+                    self.cube['U'][0][i] = r[i]
+                    self.cube['D'][2][i] = l[i]
+                    self.cube['L'][2-i][0] = u[i]
+                    self.cube['R'][2-i][2] = d[i]
+            
             elif direction == "counterclockwise":
-                temp = [self.cube['U'][0][i] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][0][i] = self.cube['L'][i][0]
-                    self.cube['L'][i][0] = self.cube['D'][2][i]
-                    self.cube['D'][2][i] = self.cube['R'][2-i][2]
-                    self.cube['R'][2-i][2] = temp[i]
+                    self.cube['U'][0][2-i] = l[i]
+                    self.cube['D'][2][2-i] = r[i]
+                    self.cube['L'][i][0] = d[i]
+                    self.cube['R'][i][2] = u[i]
+
         elif face == 'L':
+            u = [self.cube['U'][i][0] for i in range(3)]
+            d = [self.cube['D'][i][0] for i in range(3)]
+            f = [self.cube['F'][i][0] for i in range(3)]
+            b = [self.cube['B'][i][2] for i in range(3)]
+            
             if direction == "clockwise":
-                temp = [self.cube['U'][i][0] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][i][0] = self.cube['B'][2-i][2]
-                    self.cube['B'][2-i][2] = self.cube['D'][2-i][0]
-                    self.cube['D'][2-i][0] = self.cube['F'][i][0]
-                    self.cube['F'][i][0] = temp[i]
+                    self.cube['U'][i][0] = b[2-i]
+                    self.cube['D'][i][0] = f[i]
+                    self.cube['F'][i][0] = u[i]
+                    self.cube['B'][i][2] = d[2-i]
+
             elif direction == "counterclockwise":
-                temp = [self.cube['U'][i][0] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][i][0] = self.cube['F'][i][0]
-                    self.cube['F'][i][0] = self.cube['D'][2-i][0]
-                    self.cube['D'][2-i][0] = self.cube['B'][2-i][2]
-                    self.cube['B'][2-i][2] = temp[i]
+                    self.cube['U'][i][0] = f[i]
+                    self.cube['D'][2-i][0] = b[i]
+                    self.cube['F'][i][0] = d[i]
+                    self.cube['B'][i][2] = u[2-i]
+            
         elif face == 'R':
+            u = [self.cube['U'][i][2] for i in range(3)]
+            d = [self.cube['D'][i][2] for i in range(3)]
+            f = [self.cube['F'][i][2] for i in range(3)]
+            b = [self.cube['B'][i][0] for i in range(3)]
+            
             if direction == "clockwise":
-                temp = [self.cube['U'][i][2] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][i][2] = self.cube['F'][i][2]
-                    self.cube['F'][i][2] = self.cube['D'][i][2]
-                    self.cube['D'][i][2] = self.cube['B'][2-i][0]
-                    self.cube['B'][2-i][0] = temp[i]                
+                    self.cube['U'][i][2] = f[i]
+                    self.cube['D'][i][2] = b[2-i]
+                    self.cube['F'][i][2] = d[i]
+                    self.cube['B'][i][0] = u[2-i]
+
             elif direction == "counterclockwise":
-                temp = [self.cube['U'][i][2] for i in range(3)]
                 for i in range(3):
-                    self.cube['U'][i][2] = self.cube['B'][2-i][0]
-                    self.cube['B'][2-i][0] = self.cube['D'][i][2]
-                    self.cube['D'][i][2] = self.cube['F'][i][2]
-                    self.cube['F'][i][2] = temp[i]
+                    self.cube['U'][2-i][2] = b[i]
+                    self.cube['D'][i][2] = f[i]
+                    self.cube['F'][i][2] = u[i]
+                    self.cube['B'][i][0] = d[2-i]
+        
                 
                 
     def rotate(self, move):
-        # Mapare miscari la F si directie
+        # Mapare miscari la Fata si directie
         move_map = {
             "U": ("U", "clockwise"),
             "D": ("D", "clockwise"),
