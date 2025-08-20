@@ -1,35 +1,23 @@
 import CubRubik 
+import userInteraction_CubRubik
+
+def main():
+    
+    print("Welcome to the Rubik's Cube Simulator!")
+    print("Press 'Enter' to start the simulator.")
+    print("Type 'exit' to quit the simulator.")
+    
+    user_Input = input("Press Enter to continue...")
+
+    if user_Input.lower() == 'exit':
+        print("Exiting the simulator. Goodbye!")
+        exit()
+    else:
+        print("Starting the Rubik's Cube simulator...")
+        userInteraction_CubRubik.main()
 
 if __name__ == "__main__":
-    # Crearea unei instanțe a cubului Rubik
-    cub = CubRubik.CubRubik()
-    
-    # Afișarea stării inițiale a cubului
-    #cub.display()
-    
-    # Exemplu de rotație a feței "Sus"
-    # cub.rotate("U")
-    cub.rotate("R-")
-    cub.rotate("U")
-    cub.rotate("B")
-    cub.rotate("L")
-    cub.rotate("D-")
-    cub.rotate("F")
-    cub.rotate("L-")
-    
-    
-    
-    # Afișarea stării cubului după rotație
-    #cub.display()
-    
-    # Exemplu de rotație a feței "Fata" în sens invers acelor de ceasornic
-    #cub.rotate("F-")
-    
-    # Afișarea stării cubului după rotația inversă
-    cub.display()
-    
-    print("Fata 'Sus' a cubului Rubik:" + str(cub.cube['U']))
-    print("Fata 'Jos' a cubului Rubik:" + str(cub.cube['D']))
-    print("Fata 'Fata' a cubului Rubik:" + str(cub.cube['F']))
+    main()
+
     
     

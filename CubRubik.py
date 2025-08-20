@@ -5,12 +5,12 @@ class CubRubik:
     def gen_cube(self):  
         # Genereaza un cub Rubik 3x3x3 cu culori initiale
         return {
-            'U': [['W'] * 3 for index in range(3)],
-            'D': [['Y'] * 3 for index in range(3)],
-            'F': [['R'] * 3 for index in range(3)],
-            'B': [['O'] * 3 for index in range(3)],
-            'L': [['G'] * 3 for index in range(3)],
-            'R': [['B'] * 3 for index in range(3)]
+            'U': [['U'] * 3 for index in range(3)],
+            'D': [['D'] * 3 for index in range(3)],
+            'F': [['F'] * 3 for index in range(3)],
+            'B': [['B'] * 3 for index in range(3)],
+            'L': [['L'] * 3 for index in range(3)],
+            'R': [['R'] * 3 for index in range(3)]
         }
 
     def rotate_face(self, face, direction="clockwise"):
@@ -21,7 +21,7 @@ class CubRubik:
             # Rotatie F cubului cu 90 de grade in sens trigonometric
             self.cube[face] = [list(row) for row in zip(*self.cube[face])][::-1]
 
-        # Roatirea marginilor adiacente
+        # Rotirea marginilor adiacente
         if face == 'U':
             f = [self.cube['F'][0][i] for i in range(3)]
             b = [self.cube['B'][0][i] for i in range(3)]
