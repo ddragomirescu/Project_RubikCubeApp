@@ -2,6 +2,14 @@
 #              [4, 5, 6],
 #              [7, 8, 9] ]
 
+
+# 'U': [['U1', 'U2', 'U3'], ['U4', 'U5', 'U6'], ['U7', 'U8', 'U9']],
+# 'R': [['R1', 'R2', 'R3'], ['R4', 'R5', 'R6'], ['R7', 'R8', 'R9']],
+# 'F': [['F1', 'F2', 'F3'], ['F4', 'F5', 'F6'], ['F7', 'F8', 'F9']],
+# 'D': [['D1', 'D2', 'D3'], ['D4', 'D5', 'D6'], ['D7', 'D8', 'D9']],
+# 'L': [['L1', 'L2', 'L3'], ['L4', 'L5', 'L6'], ['L7', 'L8', 'L9']],
+# 'B': [['B1', 'B2', 'B3'], ['B4', 'B5', 'B6'], ['B7', 'B8', 'B9']]
+
 # print("Original Matrix:", matrix_1)
 # #matrix[::-1] # This will reverse the rows of the matrix
 
@@ -57,3 +65,20 @@ print(test_current_State)
 test_current_State = test_current_State.replace("W", "U").replace("Y", "D").replace("R", "F").replace("O", "B").replace("G", "L").replace("B", "R")
 
 print(test_current_State)
+
+
+# String de generat {'F': [['F1', 'F2', 'F3'], ['F4', 'F5', 'F6'], ['7F', 'F8', 'F9']],
+
+F = [[],[],[]]
+for i in range(1, 10):
+   if i < 4:
+        F[0].append("F" + str(i))
+   elif i < 7:
+        F[1].append("F" + str(i))
+   else:
+        F[2].append("F" + str(i))
+
+        
+
+print(F)
+    

@@ -1,18 +1,15 @@
+# CubRubik.py
 class CubRubik:
     def __init__(self):
         self.cube = self.gen_cube()
 
     def gen_cube(self):  
-        # Genereaza un cub Rubik 3x3x3 cu culori initiale
-        return {
-            'U': [['U'] * 3 for index in range(3)],
-            'D': [['D'] * 3 for index in range(3)],
-            'F': [['F'] * 3 for index in range(3)],
-            'B': [['B'] * 3 for index in range(3)],
-            'L': [['L'] * 3 for index in range(3)],
-            'R': [['R'] * 3 for index in range(3)]
-        }
+        # Genereaza un cub Rubik 3x3x3 cu fete numerotate
+        cube_faces = ['U', 'D', 'F', 'B', 'L', 'R']
+        return { face: [[face + str(j*3 + i + 1) for i in range(3)] for j in range(3)] for face in cube_faces }
+       
 
+    
     def rotate_face(self, face, direction="clockwise"):
         # Rotatie F cubului cu 90 de grade in sensul accelor de ceasornic 
         if direction == "clockwise":
@@ -174,6 +171,24 @@ class CubRubik:
             for row in colors:
                 print(" ".join(row))
             print()
+    
+    def display_cross(self):
+        # Afișează starea curentă a cubului Rubik în format încrucișat
+        print("Starea curentă a cubului Rubik (format încrucișat):")
+        U = self.cube['U']
+        D = self.cube['D']
+        F = self.cube['F']
+        B = self.cube['B']
+        L = self.cube['L']
+        R = self.cube['R']
+
+        for i in range(3):
+            print("      " + " ".join(U[i]))
+        for i in range(3):
+            print(" ".join(L[i]) + " " + " ".join(F[i]) + " " + " ".join(R[i]) + " " + " ".join(B[i]))
+        for i in range(3):
+            print("      " + " ".join(D[i]))
+        print()
 
 
 

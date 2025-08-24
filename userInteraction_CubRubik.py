@@ -1,13 +1,12 @@
 import CubRubik 
 import solve_CubRubik as solveKaciemba
 
-
 def main():
     # Crearea unei instanțe a cubului Rubik
     cub = CubRubik.CubRubik()
     
     # Afișarea stării inițiale a cubului
-    cub.display()
+    cub.display_cross()
 
     print("You can rotate the cube using commands like 'U', 'D', 'F', 'B', 'L', 'R' for clockwise rotations,"
     " and 'U-', 'D-', 'F-', 'B-', 'L-', 'R-' for counterclockwise rotations.")
@@ -31,7 +30,7 @@ def main():
                     exit()
             elif user_input in valid_moves:
                 cub.rotate(user_input)
-                cub.display()
+                cub.display_cross()
                 user_input = input("Enter your next rotation command (type 'solve' for solution or type 'exit' to quit): ")
             elif user_input.lower() == 'solve':
                 print("Solving the cube...")
@@ -54,11 +53,6 @@ def main():
         print("Error Detected:", e)
 
     print("Exiting the simulator. Goodbye!")
-
-    # Aditional logic, allows the file to also run standalone for testing purposes
-    if __name__ == "__main__":
-        main()
-    
     
 def convert_to_string(cube):
     """
@@ -69,5 +63,7 @@ def convert_to_string(cube):
     cube_str = str(cube['U']) + str(cube['R']) + str(cube['F']) + str(cube['D']) + str(cube['L']) + str(cube['B'])
     # Remove spaces, commas, and brackets for a cleaner output
     cube_str = cube_str.replace(" ", "").replace(",", "").replace("[", "").replace("]", "").replace("'", "")
-    
+    for i in range(1, 10):
+        cube_str = cube_str.replace(str(i), "")
+
     return cube_str
