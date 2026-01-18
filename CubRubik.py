@@ -183,11 +183,11 @@ class CubRubik:
         R = self.cube['R']
 
         for i in range(3):
-            print("      " + " ".join(U[i]))
+            print("         " + " ".join(U[i]))
         for i in range(3):
             print(" ".join(L[i]) + " " + " ".join(F[i]) + " " + " ".join(R[i]) + " " + " ".join(B[i]))
         for i in range(3):
-            print("      " + " ".join(D[i]))
+            print("         " + " ".join(D[i]))
         print()
 
 

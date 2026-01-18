@@ -21,17 +21,18 @@ def main():
 
     try:
         while user_input.lower() != 'exit':
-            if user_input not in valid_moves and user_input.lower() != 'exit' and user_input.lower() != 'solve':
+            if user_input not in valid_moves and user_input.lower() != 'solve':
                 print("Invalid move. Please enter a valid rotation command or type 'exit' to quit.")
                 user_input = input("Enter your rotation command (or type 'exit' to quit): ")
                 attempts += 1
-                if attempts >= max_attempts:
+                if attempts > max_attempts:
                     print("Too many invalid attempts. Exiting the simulator.")
                     exit()
             elif user_input in valid_moves:
                 cub.rotate(user_input)
                 cub.display_cross()
                 user_input = input("Enter your next rotation command (type 'solve' for solution or type 'exit' to quit): ")
+                attempts = 0 # Reset attempts after a valid move
             elif user_input.lower() == 'solve':
                 print("Solving the cube...")
                 # Here you could implement a solving algorithm if desired.
