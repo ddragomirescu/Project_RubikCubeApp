@@ -7,6 +7,7 @@ def main():
     
     # Afișarea stării inițiale a cubului
     cub.display_cross()
+   
 
     print("You can rotate the cube using commands like 'U', 'D', 'F', 'B', 'L', 'R' for clockwise rotations,"
     " and 'U-', 'D-', 'F-', 'B-', 'L-', 'R-' for counterclockwise rotations.")

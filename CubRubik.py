@@ -8,6 +8,9 @@ class CubRubik:
         cube_faces = ['U', 'D', 'F', 'B', 'L', 'R']
         return { face: [[face + str(j*3 + i + 1) for i in range(3)] for j in range(3)] for face in cube_faces }
     
+    def gen_cube_from_colors(self, colors):
+        return none 
+        
     def rotate_face(self, face, direction="clockwise"):
         # Rotatie F cubului cu 90 de grade in sensul accelor de ceasornic 
         if direction == "clockwise":
@@ -159,7 +162,7 @@ class CubRubik:
         else:
             raise ValueError("Input Error: Miscare invalida!")
 
-    def display(self):
+    def cla(self):
         # Afișează starea curentă a cubului Rubik
         print("Starea curentă a cubului Rubik:")
         for face, colors in self.cube.items():

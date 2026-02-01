@@ -1,0 +1,62 @@
+{
+	"name": "Rubik Cube Solver - Python 3.13",
+	"image": "python:3.13-bookworm",
+
+	// Configure tool-specific properties
+	"customizations": {
+		"vscode": {
+			// Set VS Code extensions to install
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-python.debugpy",
+				"vscode.git"
+			],
+			// Set VS Code settings
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": false,
+				"python.testing.pytestEnabled": true,
+				"editor.formatOnSave": false
+			}
+		}
+	},
+
+	// Forward ports for Flask app
+	"forwardPorts": [5000],
+	"portsAttributes": {
+		"5000": {
+			"label": "Flask App",
+			"onAutoForward": "notify"
+		}
+	},
+
+	// Use 'postCreateCommand' to run commands after the container is created
+	"postCreateCommand": "bash .devcontainer/setup.sh",
+
+	// Comment out to connect as root instead
+	"remoteUser": "vscode",
+
+	// Create a non-root user
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
+			"installOhMyZsh": true,
+			"upgradePackages": true,
+			"username": "vscode",
+			"userUid": "1000",
+			"userGid": "1000"
+		},
+		"ghcr.io/devcontainers/features/git:1": {
+			"version": "latest"
+		}
+	},
+
+	// Environment variables
+	"remoteEnv": {
+		"FLASK_APP": "app.py",
+		"FLASK_ENV": "development",
+		"PYTHONUNBUFFERED": "1"
+	}
+}

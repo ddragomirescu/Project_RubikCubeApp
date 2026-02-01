@@ -85,6 +85,15 @@ def solve():
     """Solve the cube using Kociemba algorithm"""
     try:
         cube_state = convert_to_string(cube.cube)
+
+        # Check if cube is already solved
+        solved_state = "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB"
+        if cube_state == solved_state:
+            return jsonify({
+                'success': False,
+                'error': 'Cube is already solved!'
+            }), 400
+
         solution = solveKociemba.solve_cube(cube_state)
 
         return jsonify({
@@ -97,56 +106,6 @@ def solve():
         return jsonify({
             'success': False,
             'error': str(e)
-        }), 400
-
-@app.route('/api/set-cube', methods=['POST'])
-def set_cube():
-    """Set custom cube state from color config"""
-    global cube
-    try:
-        data = request.get_json()
-        custom_state = data.get('cube')
-
-        if not custom_state:
-            return jsonify({
-                'success': False,
-                'error': 'No cube state provided'
-            }), 400
-
-        # Validate that we have all 6 faces with 9 cells each
-        required_faces = ['U', 'D', 'F', 'B', 'L', 'R']
-        for face in required_faces:
-            if face not in custom_state or len(custom_state[face]) != 3:
-                return jsonify({
-                    'success': False,
-                    'error': 'Invalid cube configuration'
-                }), 400
-            for row in custom_state[face]:
-                if len(row) != 3:
-                    return jsonify({
-                        'success': False,
-                        'error': 'Invalid cube configuration'
-                    }), 400
-
-        # Create new cube with custom state
-        cube = CubRubik.CubRubik()
-
-        # Map colors back to cell identifiers (e.g., 'U' -> 'U1', 'U2', etc.)
-        for face in required_faces:
-            for i in range(3):
-                for j in range(3):
-                    color = custom_state[face][i][j]
-                    # Set the color in the cube (color + position number)
-                    cube.cube[face][i][j] = color + str(i * 3 + j + 1)
-
-        return jsonify({
-            'success': True,
-            'cube': get_colored_state()
-        })
-    except Exception:
-        return jsonify({
-            'success': False,
-            'error': 'Invalid cube configuration, please try again'
         }), 400
 
 @app.route('/api/scramble', methods=['POST'])
@@ -201,4 +160,5 @@ def solve_from_notation():
         }), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Disable reloader to prevent cube state reset issues
+    app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False, threaded=False)

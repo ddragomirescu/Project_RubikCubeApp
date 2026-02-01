@@ -209,29 +209,7 @@
         <div class="action-buttons">
             <button class="btn btn-action btn-reset" onclick="resetCube()">Reset</button>
             <button class="btn btn-action btn-scramble" onclick="scrambleCube()">Scramble</button>
-            <button class="btn btn-action btn-color-config" onclick="toggleColorConfig()">Color Config</button>
             <button class="btn btn-action btn-solve" onclick="solveCube()">Solve</button>
-        </div>
-
-        <!-- Color Picker (hidden by default) -->
-        <div class="color-picker-section" id="color-picker" style="display: none;">
-            <h3>Select Color</h3>
-            <p class="color-hint">Click a color, then click on any cube cell to paint it</p>
-            <div class="orientation-note">
-                <strong>Note:</strong> Center pieces show the correct face colors. Match your physical cube's orientation before painting to ensure accurate solving position.
-            </div>
-            <div class="color-options">
-                <button class="color-btn active" data-color="U" onclick="selectColor('U')" style="background: #ffffff; border: 2px solid #333;">White (U)</button>
-                <button class="color-btn" data-color="D" onclick="selectColor('D')" style="background: #ffeb3b;">Yellow (D)</button>
-                <button class="color-btn" data-color="F" onclick="selectColor('F')" style="background: #4caf50;">Green (F)</button>
-                <button class="color-btn" data-color="B" onclick="selectColor('B')" style="background: #2196f3;">Blue (B)</button>
-                <button class="color-btn" data-color="L" onclick="selectColor('L')" style="background: #ff9800;">Orange (L)</button>
-                <button class="color-btn" data-color="R" onclick="selectColor('R')" style="background: #f44336;">Red (R)</button>
-            </div>
-            <div class="color-config-actions">
-                <button class="btn btn-action btn-reset" onclick="resetToWhite()">Clear</button>
-                <button class="btn btn-action" onclick="exitColorConfig()">Done</button>
-            </div>
         </div>
     </div>
 

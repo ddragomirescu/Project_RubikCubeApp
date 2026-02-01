@@ -54,31 +54,55 @@
     # print("Fata 'Jos' a cubului Rubik:" + str(cub.cube['D']))
     # print("Fata 'Fata' a cubului Rubik:" + str(cub.cube['F']))
 
-test_current_State = "[['G', 'B', 'B'], ['G', 'W', 'B'], ['G', 'G', 'B']][['Y', 'Y', 'Y'], ['O', 'B', 'R'], ['W', 'W', 'W']][['O', 'R', 'R'], ['W', 'R', 'W'], ['O', 'R', 'R']][['G', 'B', 'B'], ['G', 'Y', 'B'], ['G', 'G', 'B']][['W', 'W', 'W'], ['O', 'G', 'R'], ['Y', 'Y', 'Y']][['O', 'O', 'R'], ['Y', 'O', 'Y'], ['O', 'O', 'R']]"
+# test_current_State = "[['G', 'B', 'B'], ['G', 'W', 'B'], ['G', 'G', 'B']][['Y', 'Y', 'Y'], ['O', 'B', 'R'], ['W', 'W', 'W']][['O', 'R', 'R'], ['W', 'R', 'W'], ['O', 'R', 'R']][['G', 'B', 'B'], ['G', 'Y', 'B'], ['G', 'G', 'B']][['W', 'W', 'W'], ['O', 'G', 'R'], ['Y', 'Y', 'Y']][['O', 'O', 'R'], ['Y', 'O', 'Y'], ['O', 'O', 'R']]"
 
-print(test_current_State)
+# print(test_current_State)
 
-test_current_State = test_current_State.replace("'", "").replace(" ", "").replace("[", "").replace("]", "").replace(",","")
+# test_current_State = test_current_State.replace("'", "").replace(" ", "").replace("[", "").replace("]", "").replace(",","")
 
-print(test_current_State)
+# print(test_current_State)
 
-test_current_State = test_current_State.replace("W", "U").replace("Y", "D").replace("R", "F").replace("O", "B").replace("G", "L").replace("B", "R")
+# test_current_State = test_current_State.replace("W", "U").replace("Y", "D").replace("R", "F").replace("O", "B").replace("G", "L").replace("B", "R")
 
-print(test_current_State)
+# print(test_current_State)
 
 
-# String de generat {'F': [['F1', 'F2', 'F3'], ['F4', 'F5', 'F6'], ['7F', 'F8', 'F9']],
+# # String de generat {'F': [['F1', 'F2', 'F3'], ['F4', 'F5', 'F6'], ['7F', 'F8', 'F9']],
 
-F = [[],[],[]]
-for i in range(1, 10):
-   if i < 4:
-        F[0].append("F" + str(i))
-   elif i < 7:
-        F[1].append("F" + str(i))
-   else:
-        F[2].append("F" + str(i))
+# F = [[],[],[]]
+# for i in range(1, 10):
+#    if i < 4:
+#         F[0].append("F" + str(i))
+#    elif i < 7:
+#         F[1].append("F" + str(i))
+#    else:
+#         F[2].append("F" + str(i))
 
         
 
-print(F)
+# print(F)
     
+
+
+class TestCubRubik:
+    def __init__(self):
+        self.cube = self.gen_cube()
+
+    def gen_cube(self):  
+        # Genereaza un cub Rubik 3x3x3 cu fete numerotate
+        cube_faces = ['U', 'D', 'F', 'B', 'L', 'R']
+        return { face: [[face for i in range(3)] for j in range(3)] for face in cube_faces }
+    
+    def get_cube_from_user_Input(self, user_in):
+        print("nonthing for now")
+
+     
+#test_cube = TestCubRubik()
+#print(test_cube.cube)
+
+color_solving = False
+
+user_option = input("Do you want to input custom colors for the cube? (yes/no): ").strip().lower()
+if user_option == 'yes':
+    color_solving = True
+    from user_colorPicker import ask_user_for_colors

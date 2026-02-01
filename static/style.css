@@ -432,6 +432,25 @@ h3 {
     background: linear-gradient(135deg, #32d86a 0%, #27e8c6 100%);
 }
 
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #556dd9 0%, #653a91 100%);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #868f96 0%, #596164 100%);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #757e85 0%, #485053 100%);
+}
+
 /* Solution Section */
 .solution-section {
     background: #f0f7ff;
