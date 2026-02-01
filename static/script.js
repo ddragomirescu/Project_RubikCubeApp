@@ -52,12 +52,22 @@ function renderCube(cubeData) {
         const faceData = cubeData[face];
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
+                const color = faceData[i][j];
+
+                // Update 2D cross view
                 const cell = document.querySelector(
                     `.cell[data-face="${face}"][data-pos="${i}-${j}"]`
                 );
                 if (cell) {
-                    const color = faceData[i][j];
                     cell.setAttribute('data-color', color);
+                }
+
+                // Update 3D cube view
+                const cell3d = document.querySelector(
+                    `.cell-3d[data-face="${face}"][data-pos="${i}-${j}"]`
+                );
+                if (cell3d) {
+                    cell3d.setAttribute('data-color', color);
                 }
             }
         }
@@ -66,6 +76,12 @@ function renderCube(cubeData) {
 
 // Rotate cube
 async function rotateCube(move) {
+    // Prevent rotations during color config mode
+    if (colorConfigMode) {
+        showError('Please exit Color Config mode before making moves');
+        return;
+    }
+
     showLoading();
     try {
         const response = await fetch('/api/rotate', {
@@ -145,6 +161,28 @@ async function scrambleCube() {
 async function solveCube() {
     showLoading();
     try {
+        // If in color config mode, set the custom cube state first
+        if (colorConfigMode) {
+            const customState = getCurrentCubeState();
+            const setResponse = await fetch('/api/set-cube', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cube: customState })
+            });
+
+            const setData = await setResponse.json();
+            if (!setData.success) {
+                hideLoading();
+                showError(setData.error || 'Invalid cube configuration, please try again');
+                return;
+            }
+
+            // Exit color config mode
+            exitColorConfig();
+        }
+
         const response = await fetch('/api/solve', {
             method: 'POST'
         });
@@ -154,22 +192,23 @@ async function solveCube() {
 
         if (data.success) {
             currentSolution = data.solution;
-            displaySolution(data.solution, data.steps);
+            displaySolution(data.solution, data.steps, data.cube_notation);
         } else {
-            showError(data.error || 'Failed to solve cube');
+            showError(data.error || 'Invalid cube configuration, please try again');
         }
     } catch (error) {
         hideLoading();
         console.error('Error solving cube:', error);
-        showError('Failed to solve cube');
+        showError('Invalid cube configuration, please try again');
     }
 }
 
 // Display solution
-function displaySolution(solution, steps) {
+function displaySolution(solution, steps, cubeNotation) {
     const solutionSection = document.getElementById('solution-section');
     const stepsElement = document.getElementById('solution-steps');
     const movesListElement = document.getElementById('solution-moves-list');
+    const notationElement = document.getElementById('cube-notation-string');
 
     stepsElement.textContent = steps;
     movesListElement.innerHTML = '';
@@ -180,6 +219,11 @@ function displaySolution(solution, steps) {
         moveBadge.textContent = move;
         movesListElement.appendChild(moveBadge);
     });
+
+    // Display cube notation if provided
+    if (cubeNotation) {
+        notationElement.textContent = cubeNotation;
+    }
 
     solutionSection.style.display = 'block';
     solutionSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -258,4 +302,290 @@ function showError(message) {
 // Show success message
 function showSuccess(message) {
     alert(message);
+}
+
+// View switching
+let currentView = 'cross';
+
+function switchView(view) {
+    const crossView = document.getElementById('cross-view');
+    const view3d = document.getElementById('3d-view');
+    const buttons = document.querySelectorAll('.btn-view');
+
+    if (view === 'cross') {
+        crossView.style.display = 'flex';
+        view3d.style.display = 'none';
+        currentView = 'cross';
+    } else {
+        crossView.style.display = 'none';
+        view3d.style.display = 'flex';
+        currentView = '3d';
+        // Update 3D cube when switching to 3D view
+        updateCube3D();
+    }
+
+    // Update button states
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// Update 3D cube display
+function updateCube3D() {
+    const faces = ['U', 'D', 'F', 'B', 'L', 'R'];
+    
+    faces.forEach(face => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                const cell2d = document.querySelector(
+                    `.cell[data-face="${face}"][data-pos="${i}-${j}"]`
+                );
+                const cell3d = document.querySelector(
+                    `.cell-3d[data-face="${face}"][data-pos="${i}-${j}"]`
+                );
+                
+                if (cell2d && cell3d) {
+                    const color = cell2d.getAttribute('data-color');
+                    cell3d.setAttribute('data-color', color);
+                }
+            }
+        }
+    });
+}
+
+// 3D Cube Rotation with Mouse
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+let rotation = { x: -20, y: -30 };
+
+const cube3d = document.getElementById('cube-3d');
+const cube3dContainer = document.querySelector('.cube-3d-container');
+
+if (cube3dContainer) {
+    cube3dContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging || currentView !== '3d') return;
+
+        const deltaX = e.clientX - previousMousePosition.x;
+        const deltaY = e.clientY - previousMousePosition.y;
+
+        rotation.y += deltaX * 0.5;
+        rotation.x -= deltaY * 0.5;
+
+        cube3d.style.transform = `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`;
+
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    // Touch support for mobile
+    cube3dContainer.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        previousMousePosition = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        };
+    });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!isDragging || currentView !== '3d') return;
+
+        const deltaX = e.touches[0].clientX - previousMousePosition.x;
+        const deltaY = e.touches[0].clientY - previousMousePosition.y;
+
+        rotation.y += deltaX * 0.5;
+        rotation.x -= deltaY * 0.5;
+
+        cube3d.style.transform = `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`;
+
+        previousMousePosition = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        };
+    });
+
+    document.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+}
+
+// Color Config Mode
+let colorConfigMode = false;
+let selectedColor = 'U'; // Default to white
+let originalCubeState = null;
+
+function toggleColorConfig() {
+    colorConfigMode = !colorConfigMode;
+    const colorPicker = document.getElementById('color-picker');
+    const cubeSection = document.querySelector('.cube-section');
+    const moveButtons = document.querySelectorAll('.btn-move');
+    const actionButtons = document.querySelectorAll('.btn-scramble, .btn-reset');
+
+    if (colorConfigMode) {
+        // Enter color config mode
+        colorPicker.style.display = 'block';
+        cubeSection.classList.add('color-config-mode');
+
+        // Disable rotation and action buttons
+        moveButtons.forEach(btn => btn.disabled = true);
+        actionButtons.forEach(btn => btn.disabled = true);
+
+        // Save current state
+        originalCubeState = getCurrentCubeState();
+
+        // Set all cells to white
+        setAllCellsWhite();
+
+        // Add click listeners to cells
+        addCellClickListeners();
+    } else {
+        // Exit color config mode
+        colorPicker.style.display = 'none';
+        cubeSection.classList.remove('color-config-mode');
+
+        // Re-enable rotation and action buttons
+        moveButtons.forEach(btn => btn.disabled = false);
+        actionButtons.forEach(btn => btn.disabled = false);
+
+        removeCellClickListeners();
+    }
+}
+
+function exitColorConfig() {
+    colorConfigMode = false;
+    const colorPicker = document.getElementById('color-picker');
+    const cubeSection = document.querySelector('.cube-section');
+    const moveButtons = document.querySelectorAll('.btn-move');
+    const actionButtons = document.querySelectorAll('.btn-scramble, .btn-reset');
+
+    colorPicker.style.display = 'none';
+    cubeSection.classList.remove('color-config-mode');
+
+    // Re-enable rotation and action buttons
+    moveButtons.forEach(btn => btn.disabled = false);
+    actionButtons.forEach(btn => btn.disabled = false);
+
+    removeCellClickListeners();
+}
+
+function resetToWhite() {
+    if (colorConfigMode) {
+        setAllCellsWhite();
+        showSuccess('Cube reset to white!');
+    }
+}
+
+function selectColor(color) {
+    selectedColor = color;
+    
+    // Update button states
+    const colorButtons = document.querySelectorAll('.color-btn');
+    colorButtons.forEach(btn => {
+        if (btn.getAttribute('data-color') === color) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+function setAllCellsWhite() {
+    const faces = ['U', 'D', 'F', 'B', 'L', 'R'];
+
+    faces.forEach(face => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                // Center piece (position 1-1) keeps its correct color, others are white
+                const isCenterPiece = (i === 1 && j === 1);
+                const color = isCenterPiece ? face : 'U';
+
+                // Update 2D cells
+                const cell = document.querySelector(
+                    `.cell[data-face="${face}"][data-pos="${i}-${j}"]`
+                );
+                if (cell) {
+                    cell.setAttribute('data-color', color);
+                }
+
+                // Update 3D cells
+                const cell3d = document.querySelector(
+                    `.cell-3d[data-face="${face}"][data-pos="${i}-${j}"]`
+                );
+                if (cell3d) {
+                    cell3d.setAttribute('data-color', color);
+                }
+            }
+        }
+    });
+}
+
+function getCurrentCubeState() {
+    const faces = ['U', 'D', 'F', 'B', 'L', 'R'];
+    const state = {};
+    
+    faces.forEach(face => {
+        state[face] = [];
+        for (let i = 0; i < 3; i++) {
+            state[face][i] = [];
+            for (let j = 0; j < 3; j++) {
+                const cell = document.querySelector(
+                    `.cell[data-face="${face}"][data-pos="${i}-${j}"]`
+                );
+                if (cell) {
+                    state[face][i][j] = cell.getAttribute('data-color');
+                }
+            }
+        }
+    });
+    
+    return state;
+}
+
+function paintCell(face, pos) {
+    // Update 2D cell
+    const cell = document.querySelector(
+        `.cell[data-face="${face}"][data-pos="${pos}"]`
+    );
+    if (cell) {
+        cell.setAttribute('data-color', selectedColor);
+    }
+    
+    // Update 3D cell
+    const cell3d = document.querySelector(
+        `.cell-3d[data-face="${face}"][data-pos="${pos}"]`
+    );
+    if (cell3d) {
+        cell3d.setAttribute('data-color', selectedColor);
+    }
+}
+
+function addCellClickListeners() {
+    const cells = document.querySelectorAll('.cell, .cell-3d');
+    cells.forEach(cell => {
+        cell.addEventListener('click', handleCellClick);
+    });
+}
+
+function removeCellClickListeners() {
+    const cells = document.querySelectorAll('.cell, .cell-3d');
+    cells.forEach(cell => {
+        cell.removeEventListener('click', handleCellClick);
+    });
+}
+
+function handleCellClick(event) {
+    if (!colorConfigMode) return;
+    
+    const face = event.target.getAttribute('data-face');
+    const pos = event.target.getAttribute('data-pos');
+    
+    if (face && pos) {
+        paintCell(face, pos);
+    }
 }

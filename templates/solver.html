@@ -8,8 +8,15 @@
 
     <!-- Cube Visualization Section -->
     <div class="cube-section">
-        <h2>Cube Visualization</h2>
-        <div class="cube-cross">
+        <div class="view-header">
+            <h2>Cube Visualization</h2>
+            <div class="view-toggle">
+                <button class="btn-view active" onclick="switchView('cross')">Cross Section</button>
+                <button class="btn-view" onclick="switchView('3d')">3D Cube</button>
+            </div>
+        </div>
+
+        <div class="cube-cross" id="cross-view">
             <!-- Top face (U) -->
             <div class="face-row">
                 <div class="face-spacer"></div>
@@ -90,6 +97,87 @@
                 </div>
             </div>
         </div>
+
+        <!-- 3D Cube View (hidden by default) -->
+        <div class="cube-3d-container" id="3d-view" style="display: none;">
+            <div class="cube-3d-wrapper">
+                <div class="cube-3d" id="cube-3d">
+                    <!-- Front Face (F) -->
+                    <div class="cube-face cube-face-front" data-face="F">
+                        <div class="cell-3d" data-face="F" data-pos="0-0"></div>
+                        <div class="cell-3d" data-face="F" data-pos="0-1"></div>
+                        <div class="cell-3d" data-face="F" data-pos="0-2"></div>
+                        <div class="cell-3d" data-face="F" data-pos="1-0"></div>
+                        <div class="cell-3d center-piece" data-face="F" data-pos="1-1"></div>
+                        <div class="cell-3d" data-face="F" data-pos="1-2"></div>
+                        <div class="cell-3d" data-face="F" data-pos="2-0"></div>
+                        <div class="cell-3d" data-face="F" data-pos="2-1"></div>
+                        <div class="cell-3d" data-face="F" data-pos="2-2"></div>
+                    </div>
+                    <!-- Back Face (B) -->
+                    <div class="cube-face cube-face-back" data-face="B">
+                        <div class="cell-3d" data-face="B" data-pos="0-0"></div>
+                        <div class="cell-3d" data-face="B" data-pos="0-1"></div>
+                        <div class="cell-3d" data-face="B" data-pos="0-2"></div>
+                        <div class="cell-3d" data-face="B" data-pos="1-0"></div>
+                        <div class="cell-3d center-piece" data-face="B" data-pos="1-1"></div>
+                        <div class="cell-3d" data-face="B" data-pos="1-2"></div>
+                        <div class="cell-3d" data-face="B" data-pos="2-0"></div>
+                        <div class="cell-3d" data-face="B" data-pos="2-1"></div>
+                        <div class="cell-3d" data-face="B" data-pos="2-2"></div>
+                    </div>
+                    <!-- Top Face (U) -->
+                    <div class="cube-face cube-face-top" data-face="U">
+                        <div class="cell-3d" data-face="U" data-pos="0-0"></div>
+                        <div class="cell-3d" data-face="U" data-pos="0-1"></div>
+                        <div class="cell-3d" data-face="U" data-pos="0-2"></div>
+                        <div class="cell-3d" data-face="U" data-pos="1-0"></div>
+                        <div class="cell-3d center-piece" data-face="U" data-pos="1-1"></div>
+                        <div class="cell-3d" data-face="U" data-pos="1-2"></div>
+                        <div class="cell-3d" data-face="U" data-pos="2-0"></div>
+                        <div class="cell-3d" data-face="U" data-pos="2-1"></div>
+                        <div class="cell-3d" data-face="U" data-pos="2-2"></div>
+                    </div>
+                    <!-- Bottom Face (D) -->
+                    <div class="cube-face cube-face-bottom" data-face="D">
+                        <div class="cell-3d" data-face="D" data-pos="0-0"></div>
+                        <div class="cell-3d" data-face="D" data-pos="0-1"></div>
+                        <div class="cell-3d" data-face="D" data-pos="0-2"></div>
+                        <div class="cell-3d" data-face="D" data-pos="1-0"></div>
+                        <div class="cell-3d center-piece" data-face="D" data-pos="1-1"></div>
+                        <div class="cell-3d" data-face="D" data-pos="1-2"></div>
+                        <div class="cell-3d" data-face="D" data-pos="2-0"></div>
+                        <div class="cell-3d" data-face="D" data-pos="2-1"></div>
+                        <div class="cell-3d" data-face="D" data-pos="2-2"></div>
+                    </div>
+                    <!-- Left Face (L) -->
+                    <div class="cube-face cube-face-left" data-face="L">
+                        <div class="cell-3d" data-face="L" data-pos="0-0"></div>
+                        <div class="cell-3d" data-face="L" data-pos="0-1"></div>
+                        <div class="cell-3d" data-face="L" data-pos="0-2"></div>
+                        <div class="cell-3d" data-face="L" data-pos="1-0"></div>
+                        <div class="cell-3d center-piece" data-face="L" data-pos="1-1"></div>
+                        <div class="cell-3d" data-face="L" data-pos="1-2"></div>
+                        <div class="cell-3d" data-face="L" data-pos="2-0"></div>
+                        <div class="cell-3d" data-face="L" data-pos="2-1"></div>
+                        <div class="cell-3d" data-face="L" data-pos="2-2"></div>
+                    </div>
+                    <!-- Right Face (R) -->
+                    <div class="cube-face cube-face-right" data-face="R">
+                        <div class="cell-3d" data-face="R" data-pos="0-0"></div>
+                        <div class="cell-3d" data-face="R" data-pos="0-1"></div>
+                        <div class="cell-3d" data-face="R" data-pos="0-2"></div>
+                        <div class="cell-3d" data-face="R" data-pos="1-0"></div>
+                        <div class="cell-3d center-piece" data-face="R" data-pos="1-1"></div>
+                        <div class="cell-3d" data-face="R" data-pos="1-2"></div>
+                        <div class="cell-3d" data-face="R" data-pos="2-0"></div>
+                        <div class="cell-3d" data-face="R" data-pos="2-1"></div>
+                        <div class="cell-3d" data-face="R" data-pos="2-2"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="drag-hint">Drag to rotate the cube</p>
+        </div>
     </div>
 
     <!-- Control/Interaction Section -->
@@ -121,7 +209,29 @@
         <div class="action-buttons">
             <button class="btn btn-action btn-reset" onclick="resetCube()">Reset</button>
             <button class="btn btn-action btn-scramble" onclick="scrambleCube()">Scramble</button>
+            <button class="btn btn-action btn-color-config" onclick="toggleColorConfig()">Color Config</button>
             <button class="btn btn-action btn-solve" onclick="solveCube()">Solve</button>
+        </div>
+
+        <!-- Color Picker (hidden by default) -->
+        <div class="color-picker-section" id="color-picker" style="display: none;">
+            <h3>Select Color</h3>
+            <p class="color-hint">Click a color, then click on any cube cell to paint it</p>
+            <div class="orientation-note">
+                <strong>Note:</strong> Center pieces show the correct face colors. Match your physical cube's orientation before painting to ensure accurate solving position.
+            </div>
+            <div class="color-options">
+                <button class="color-btn active" data-color="U" onclick="selectColor('U')" style="background: #ffffff; border: 2px solid #333;">White (U)</button>
+                <button class="color-btn" data-color="D" onclick="selectColor('D')" style="background: #ffeb3b;">Yellow (D)</button>
+                <button class="color-btn" data-color="F" onclick="selectColor('F')" style="background: #4caf50;">Green (F)</button>
+                <button class="color-btn" data-color="B" onclick="selectColor('B')" style="background: #2196f3;">Blue (B)</button>
+                <button class="color-btn" data-color="L" onclick="selectColor('L')" style="background: #ff9800;">Orange (L)</button>
+                <button class="color-btn" data-color="R" onclick="selectColor('R')" style="background: #f44336;">Red (R)</button>
+            </div>
+            <div class="color-config-actions">
+                <button class="btn btn-action btn-reset" onclick="resetToWhite()">Clear</button>
+                <button class="btn btn-action" onclick="exitColorConfig()">Done</button>
+            </div>
         </div>
     </div>
 
@@ -133,6 +243,10 @@
             <div class="solution-moves">
                 <strong>Moves:</strong>
                 <div id="solution-moves-list"></div>
+            </div>
+            <div class="cube-notation">
+                <strong>Cube Notation:</strong>
+                <div class="notation-string" id="cube-notation-string"></div>
             </div>
         </div>
         <button class="btn btn-action" onclick="applySolution()">Apply Solution</button>

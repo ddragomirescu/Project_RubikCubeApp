@@ -262,12 +262,13 @@ h3 {
 
 .face-row {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .face-spacer {
     width: 150px;
     height: 150px;
+    margin: 5px;
 }
 
 .face {
@@ -376,6 +377,12 @@ h3 {
     transform: translateY(0);
 }
 
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .btn-move {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -480,6 +487,26 @@ h3 {
     display: inline-block;
 }
 
+.cube-notation {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.notation-string {
+    margin-top: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    background: white;
+    padding: 12px;
+    border-radius: 5px;
+    word-break: break-all;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
 /* Loading Spinner */
 .loading {
     position: fixed;
@@ -528,6 +555,7 @@ h3 {
     .face-spacer {
         width: 100px;
         height: 100px;
+        margin: 5px;
     }
 
     .face {
@@ -694,4 +722,319 @@ h3 {
     font-size: 1.1em;
     margin-bottom: 25px;
     color: white;
+}
+
+/* View Toggle Buttons */
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-view {
+    padding: 10px 20px;
+    border: 2px solid #667eea;
+    background: white;
+    color: #667eea;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-view:hover {
+    background: #f0f0ff;
+    transform: translateY(-2px);
+}
+
+.btn-view.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+}
+
+/* 3D Cube Container */
+.cube-3d-container {
+    perspective: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    min-height: 500px;
+    user-select: none;
+}
+
+.cube-3d-wrapper {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.cube-3d {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.1s;
+    transform: rotateX(-20deg) rotateY(-30deg);
+}
+
+/* 3D Cube Faces */
+.cube-face {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 3px;
+    background: #333;
+    padding: 3px;
+    border-radius: 5px;
+    backface-visibility: visible;
+}
+
+.cube-face-front {
+    transform: translateZ(150px);
+}
+
+.cube-face-back {
+    transform: translateZ(-150px) rotateY(180deg);
+}
+
+.cube-face-top {
+    transform: rotateX(90deg) translateZ(150px);
+}
+
+.cube-face-bottom {
+    transform: rotateX(-90deg) translateZ(150px);
+}
+
+.cube-face-left {
+    transform: rotateY(-90deg) translateZ(150px);
+}
+
+.cube-face-right {
+    transform: rotateY(90deg) translateZ(150px);
+}
+
+/* 3D Cells */
+.cell-3d {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #333;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.cell-3d.center-piece::after {
+    content: attr(data-face);
+    font-size: 24px;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.4);
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* 3D Cube colors (same as 2D) */
+.cell-3d[data-color="U"] {
+    background-color: #ffffff;
+}
+
+.cell-3d[data-color="D"] {
+    background-color: #ffeb3b;
+}
+
+.cell-3d[data-color="F"] {
+    background-color: #4caf50;
+}
+
+.cell-3d[data-color="B"] {
+    background-color: #2196f3;
+}
+
+.cell-3d[data-color="L"] {
+    background-color: #ff9800;
+}
+
+.cell-3d[data-color="R"] {
+    background-color: #f44336;
+}
+
+.drag-hint {
+    margin-top: 30px;
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Responsive adjustments for 3D cube */
+@media (max-width: 768px) {
+    .cube-3d-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+
+    .cube-face {
+        width: 200px;
+        height: 200px;
+    }
+
+    .cube-face-front {
+        transform: translateZ(100px);
+    }
+
+    .cube-face-back {
+        transform: translateZ(-100px) rotateY(180deg);
+    }
+
+    .cube-face-top {
+        transform: rotateX(90deg) translateZ(100px);
+    }
+
+    .cube-face-bottom {
+        transform: rotateX(-90deg) translateZ(100px);
+    }
+
+    .cube-face-left {
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+
+    .cube-face-right {
+        transform: rotateY(90deg) translateZ(100px);
+    }
+
+    .view-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .view-toggle {
+        width: 100%;
+    }
+
+    .btn-view {
+        flex: 1;
+    }
+}
+
+/* Color Picker Styles */
+.btn-color-config {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-color-config:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%);
+}
+
+.color-picker-section {
+    background: #f0f7ff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 2px solid #667eea;
+}
+
+.color-picker-section h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.color-hint {
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.color-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.color-btn {
+    padding: 15px 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.color-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.color-btn.active {
+    border: 3px solid #333;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+}
+
+/* Color config mode cursor */
+.color-config-mode .cell,
+.color-config-mode .cell-3d {
+    cursor: pointer;
+}
+
+.color-config-mode .cell:hover,
+.color-config-mode .cell-3d:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .color-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.color-config-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.color-config-actions .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+.orientation-note {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #2e7d32;
+}
+
+.orientation-note strong {
+    color: #1b5e20;
 }

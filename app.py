@@ -90,12 +90,63 @@ def solve():
         return jsonify({
             'success': True,
             'solution': solution,
-            'steps': len(solution)
+            'steps': len(solution),
+            'cube_notation': cube_state
         })
     except Exception as e:
         return jsonify({
             'success': False,
             'error': str(e)
+        }), 400
+
+@app.route('/api/set-cube', methods=['POST'])
+def set_cube():
+    """Set custom cube state from color config"""
+    global cube
+    try:
+        data = request.get_json()
+        custom_state = data.get('cube')
+
+        if not custom_state:
+            return jsonify({
+                'success': False,
+                'error': 'No cube state provided'
+            }), 400
+
+        # Validate that we have all 6 faces with 9 cells each
+        required_faces = ['U', 'D', 'F', 'B', 'L', 'R']
+        for face in required_faces:
+            if face not in custom_state or len(custom_state[face]) != 3:
+                return jsonify({
+                    'success': False,
+                    'error': 'Invalid cube configuration'
+                }), 400
+            for row in custom_state[face]:
+                if len(row) != 3:
+                    return jsonify({
+                        'success': False,
+                        'error': 'Invalid cube configuration'
+                    }), 400
+
+        # Create new cube with custom state
+        cube = CubRubik.CubRubik()
+
+        # Map colors back to cell identifiers (e.g., 'U' -> 'U1', 'U2', etc.)
+        for face in required_faces:
+            for i in range(3):
+                for j in range(3):
+                    color = custom_state[face][i][j]
+                    # Set the color in the cube (color + position number)
+                    cube.cube[face][i][j] = color + str(i * 3 + j + 1)
+
+        return jsonify({
+            'success': True,
+            'cube': get_colored_state()
+        })
+    except Exception:
+        return jsonify({
+            'success': False,
+            'error': 'Invalid cube configuration, please try again'
         }), 400
 
 @app.route('/api/scramble', methods=['POST'])
@@ -113,6 +164,41 @@ def scramble():
         'cube': get_colored_state(),
         'scramble': scramble_moves
     })
+
+@app.route('/api/solve-notation', methods=['POST'])
+def solve_from_notation():
+    """Solve cube directly from notation string"""
+    try:
+        data = request.get_json()
+        notation = data.get('notation')
+
+        if not notation:
+            return jsonify({
+                'success': False,
+                'error': 'No cube notation provided'
+            }), 400
+
+        # Validate notation length (should be 54 characters for a 3x3 cube)
+        if len(notation) != 54:
+            return jsonify({
+                'success': False,
+                'error': f'Invalid notation length. Expected 54 characters, got {len(notation)}.'
+            }), 400
+
+        # Solve the cube using the notation string
+        solution = solveKociemba.solve_cube(notation)
+
+        return jsonify({
+            'success': True,
+            'solution': solution,
+            'steps': len(solution),
+            'notation': notation
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 400
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
