@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Rubik Cube Solver{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Rubik's Cube Solver</h1>
+
+    <!-- Cube Visualization Section -->
+    <div class="cube-section">
+        <h2>Cube Visualization</h2>
+        <div class="cube-cross">
+            <!-- Top face (U) -->
+            <div class="face-row">
+                <div class="face-spacer"></div>
+                <div class="face" id="face-U">
+                    <div class="cell" data-face="U" data-pos="0-0"></div>
+                    <div class="cell" data-face="U" data-pos="0-1"></div>
+                    <div class="cell" data-face="U" data-pos="0-2"></div>
+                    <div class="cell" data-face="U" data-pos="1-0"></div>
+                    <div class="cell center-piece" data-face="U" data-pos="1-1"></div>
+                    <div class="cell" data-face="U" data-pos="1-2"></div>
+                    <div class="cell" data-face="U" data-pos="2-0"></div>
+                    <div class="cell" data-face="U" data-pos="2-1"></div>
+                    <div class="cell" data-face="U" data-pos="2-2"></div>
+                </div>
+            </div>
+
+            <!-- Middle row (L, F, R, B) -->
+            <div class="face-row">
+                <div class="face" id="face-L">
+                    <div class="cell" data-face="L" data-pos="0-0"></div>
+                    <div class="cell" data-face="L" data-pos="0-1"></div>
+                    <div class="cell" data-face="L" data-pos="0-2"></div>
+                    <div class="cell" data-face="L" data-pos="1-0"></div>
+                    <div class="cell center-piece" data-face="L" data-pos="1-1"></div>
+                    <div class="cell" data-face="L" data-pos="1-2"></div>
+                    <div class="cell" data-face="L" data-pos="2-0"></div>
+                    <div class="cell" data-face="L" data-pos="2-1"></div>
+                    <div class="cell" data-face="L" data-pos="2-2"></div>
+                </div>
+                <div class="face" id="face-F">
+                    <div class="cell" data-face="F" data-pos="0-0"></div>
+                    <div class="cell" data-face="F" data-pos="0-1"></div>
+                    <div class="cell" data-face="F" data-pos="0-2"></div>
+                    <div class="cell" data-face="F" data-pos="1-0"></div>
+                    <div class="cell center-piece" data-face="F" data-pos="1-1"></div>
+                    <div class="cell" data-face="F" data-pos="1-2"></div>
+                    <div class="cell" data-face="F" data-pos="2-0"></div>
+                    <div class="cell" data-face="F" data-pos="2-1"></div>
+                    <div class="cell" data-face="F" data-pos="2-2"></div>
+                </div>
+                <div class="face" id="face-R">
+                    <div class="cell" data-face="R" data-pos="0-0"></div>
+                    <div class="cell" data-face="R" data-pos="0-1"></div>
+                    <div class="cell" data-face="R" data-pos="0-2"></div>
+                    <div class="cell" data-face="R" data-pos="1-0"></div>
+                    <div class="cell center-piece" data-face="R" data-pos="1-1"></div>
+                    <div class="cell" data-face="R" data-pos="1-2"></div>
+                    <div class="cell" data-face="R" data-pos="2-0"></div>
+                    <div class="cell" data-face="R" data-pos="2-1"></div>
+                    <div class="cell" data-face="R" data-pos="2-2"></div>
+                </div>
+                <div class="face" id="face-B">
+                    <div class="cell" data-face="B" data-pos="0-0"></div>
+                    <div class="cell" data-face="B" data-pos="0-1"></div>
+                    <div class="cell" data-face="B" data-pos="0-2"></div>
+                    <div class="cell" data-face="B" data-pos="1-0"></div>
+                    <div class="cell center-piece" data-face="B" data-pos="1-1"></div>
+                    <div class="cell" data-face="B" data-pos="1-2"></div>
+                    <div class="cell" data-face="B" data-pos="2-0"></div>
+                    <div class="cell" data-face="B" data-pos="2-1"></div>
+                    <div class="cell" data-face="B" data-pos="2-2"></div>
+                </div>
+            </div>
+
+            <!-- Bottom face (D) -->
+            <div class="face-row">
+                <div class="face-spacer"></div>
+                <div class="face" id="face-D">
+                    <div class="cell" data-face="D" data-pos="0-0"></div>
+                    <div class="cell" data-face="D" data-pos="0-1"></div>
+                    <div class="cell" data-face="D" data-pos="0-2"></div>
+                    <div class="cell" data-face="D" data-pos="1-0"></div>
+                    <div class="cell center-piece" data-face="D" data-pos="1-1"></div>
+                    <div class="cell" data-face="D" data-pos="1-2"></div>
+                    <div class="cell" data-face="D" data-pos="2-0"></div>
+                    <div class="cell" data-face="D" data-pos="2-1"></div>
+                    <div class="cell" data-face="D" data-pos="2-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Control/Interaction Section -->
+    <div class="control-section">
+        <h2>Controls</h2>
+
+        <div class="controls-grid">
+            <div class="control-group">
+                <h3>Clockwise Rotations</h3>
+                <button class="btn btn-move" onclick="rotateCube('R')">R</button>
+                <button class="btn btn-move" onclick="rotateCube('L')">L</button>
+                <button class="btn btn-move" onclick="rotateCube('U')">U</button>
+                <button class="btn btn-move" onclick="rotateCube('D')">D</button>
+                <button class="btn btn-move" onclick="rotateCube('F')">F</button>
+                <button class="btn btn-move" onclick="rotateCube('B')">B</button>
+            </div>
+
+            <div class="control-group">
+                <h3>Counter-Clockwise</h3>
+                <button class="btn btn-move" onclick="rotateCube('R-')">R'</button>
+                <button class="btn btn-move" onclick="rotateCube('L-')">L'</button>
+                <button class="btn btn-move" onclick="rotateCube('U-')">U'</button>
+                <button class="btn btn-move" onclick="rotateCube('D-')">D'</button>
+                <button class="btn btn-move" onclick="rotateCube('F-')">F'</button>
+                <button class="btn btn-move" onclick="rotateCube('B-')">B'</button>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-action btn-reset" onclick="resetCube()">Reset</button>
+            <button class="btn btn-action btn-scramble" onclick="scrambleCube()">Scramble</button>
+            <button class="btn btn-action btn-solve" onclick="solveCube()">Solve</button>
+        </div>
+    </div>
+
+    <!-- Solution Section (hidden by default) -->
+    <div class="solution-section" id="solution-section" style="display: none;">
+        <h2>Solution</h2>
+        <div class="solution-info">
+            <p><strong>Number of Steps:</strong> <span id="solution-steps">0</span></p>
+            <div class="solution-moves">
+                <strong>Moves:</strong>
+                <div id="solution-moves-list"></div>
+            </div>
+        </div>
+        <button class="btn btn-action" onclick="applySolution()">Apply Solution</button>
+        <button class="btn btn-action" onclick="hideSolution()">Close</button>
+    </div>
+
+    <!-- Loading indicator -->
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

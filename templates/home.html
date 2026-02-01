@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Rubik's Cube Solver{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="home-hero">
+        <h1>Welcome to Rubik's Cube Solver</h1>
+        <p class="hero-subtitle">Your Ultimate Tool for Solving Rubik's Cube Puzzles</p>
+    </div>
+
+    <div class="home-section">
+        <h2>About This Application</h2>
+        <p>
+            This is a comprehensive Rubik's Cube Solver application that allows you to visualize,
+            manipulate, and solve Rubik's Cube puzzles using advanced algorithms. Whether you're
+            a beginner looking to understand the cube or an enthusiast wanting to find optimal solutions,
+            this tool has everything you need.
+        </p>
+    </div>
+
+    <div class="home-features">
+        <h2>Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Interactive Visualization</h3>
+                <p>View your cube in a clear, cross-form layout with color-coded faces and labeled centers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Full Control</h3>
+                <p>Execute any standard move (R, L, U, D, F, B) in both clockwise and counter-clockwise directions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧩</div>
+                <h3>Smart Solving</h3>
+                <p>Get optimal solutions using the powerful Kociemba algorithm with step-by-step instructions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎲</div>
+                <h3>Practice Mode</h3>
+                <p>Scramble your cube randomly and practice solving it with our guided approach.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-cta">
+        <h2>Ready to Get Started?</h2>
+        <p>Click the button below to access the interactive Rubik's Cube Solver</p>
+        <a href="{{ url_for('solver') }}" class="btn btn-cta">Start Solving</a>
+    </div>
+
+    <div class="home-info">
+        <p class="info-text">
+            <strong>Note:</strong> This application is currently in active development.
+            More features and improvements will be added in future updates.
+            Thank you for your patience and support!
+        </p>
+    </div>
+</div>
+{% endblock %}

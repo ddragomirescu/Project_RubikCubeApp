@@ -7,8 +7,6 @@ class CubRubik:
         # Genereaza un cub Rubik 3x3x3 cu fete numerotate
         cube_faces = ['U', 'D', 'F', 'B', 'L', 'R']
         return { face: [[face + str(j*3 + i + 1) for i in range(3)] for j in range(3)] for face in cube_faces }
-       
-
     
     def rotate_face(self, face, direction="clockwise"):
         # Rotatie F cubului cu 90 de grade in sensul accelor de ceasornic 
@@ -137,9 +135,7 @@ class CubRubik:
                     self.cube['U'][2-i][2] = b[i]
                     self.cube['D'][i][2] = f[i]
                     self.cube['F'][i][2] = u[i]
-                    self.cube['B'][i][0] = d[2-i]
-        
-                
+                    self.cube['B'][i][0] = d[2-i]              
                 
     def rotate(self, move):
         # Mapare miscari la Fata si directie

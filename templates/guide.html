@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}How to Solve Guide - Rubik's Cube Solver{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="guide-header">
+        <h1>How to Solve Rubik's Cube</h1>
+        <p class="guide-intro">A Beginner's Guide to Solving the Rubik's Cube</p>
+    </div>
+
+    <div class="guide-notice">
+        <p><strong>Note:</strong> This guide is currently a placeholder and will be updated with detailed instructions in the future.</p>
+    </div>
+
+    <div class="guide-content">
+        <section class="guide-section">
+            <h2>Beginner's Guide</h2>
+            <p>
+                Welcome to the beginner's guide for solving the Rubik's Cube! This guide will walk you through
+                the fundamental concepts and steps needed to solve a standard 3x3 Rubik's Cube. Whether you're
+                a complete beginner or looking to refresh your knowledge, this guide will help you understand
+                the basic principles of cube solving.
+            </p>
+            <p>
+                Before we begin, familiarize yourself with the basic notation:
+            </p>
+            <ul>
+                <li><strong>R</strong> - Right face clockwise</li>
+                <li><strong>L</strong> - Left face clockwise</li>
+                <li><strong>U</strong> - Upper face clockwise</li>
+                <li><strong>D</strong> - Down face clockwise</li>
+                <li><strong>F</strong> - Front face clockwise</li>
+                <li><strong>B</strong> - Back face clockwise</li>
+                <li><strong>R'</strong> - Right face counter-clockwise (and similarly for others)</li>
+            </ul>
+        </section>
+
+        <section class="guide-section">
+            <div class="step-card">
+                <h3>Step 1: White Cross</h3>
+                <p>
+                    The first step in solving the Rubik's Cube is to create a white cross on one face.
+                    This involves positioning the four white edge pieces around the white center piece.
+                </p>
+                <p><em>Detailed instructions and algorithms will be added in future updates.</em></p>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <div class="step-card">
+                <h3>Step 2: White Corners</h3>
+                <p>
+                    After completing the white cross, the next step is to solve the white corners.
+                    This means placing all four white corner pieces in their correct positions.
+                </p>
+                <p><em>Detailed instructions and algorithms will be added in future updates.</em></p>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <div class="step-card">
+                <h3>Step 3: Middle Layer Edges</h3>
+                <p>
+                    With the first layer complete, we now focus on solving the middle layer edges.
+                    This step involves positioning the four edge pieces that belong in the middle layer.
+                </p>
+                <p><em>Detailed instructions and algorithms will be added in future updates.</em></p>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <div class="step-card">
+                <h3>Step 4: Yellow Cross</h3>
+                <p>
+                    The fourth step is creating a yellow cross on the top face. This is similar to
+                    the white cross we made in Step 1, but now on the opposite side.
+                </p>
+                <p><em>Detailed instructions and algorithms will be added in future updates.</em></p>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <div class="step-card">
+                <h3>Step 5: Yellow Edges</h3>
+                <p>
+                    After forming the yellow cross, we need to position the yellow edge pieces correctly.
+                    This ensures that the edge pieces match with the center pieces on the adjacent faces.
+                </p>
+                <p><em>Detailed instructions and algorithms will be added in future updates.</em></p>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <div class="step-card">
+                <h3>Step 6: Yellow Corners Position</h3>
+                <p>
+                    In this step, we position the yellow corner pieces in their correct locations,
+                    although they may not be oriented correctly yet.
+                </p>
+                <p><em>Detailed instructions and algorithms will be added in future updates.</em></p>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <div class="step-card">
+                <h3>Step 7: Yellow Corners Orientation</h3>
+                <p>
+                    The final step! We orient the yellow corner pieces correctly to complete the cube.
+                    After this step, your Rubik's Cube should be fully solved!
+                </p>
+                <p><em>Detailed instructions and algorithms will be added in future updates.</em></p>
+            </div>
+        </section>
+
+        <div class="guide-footer">
+            <h2>Ready to Practice?</h2>
+            <p>Head over to the solver page to practice these steps on an interactive cube!</p>
+            <a href="{{ url_for('solver') }}" class="btn btn-cta">Go to Solver</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
