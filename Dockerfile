@@ -13,13 +13,12 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir gunicorn
 
 # Copy application files
 COPY . .
 
 # Expose port
-EXPOSE 8000
+EXPOSE 5000
 
-# Run with Gunicorn (4 worker processes)
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
+# Run Flask directly
+CMD ["python", "app.py"]
